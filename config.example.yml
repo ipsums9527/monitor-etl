@@ -1,0 +1,18 @@
+listen: "0.0.0.0"
+port: 19999
+
+api:
+  type: "ikuai"
+  host: "http://192.168.9.1"
+  user: "admin"
+  password: "123456"
+
+#  type: "routeros"
+#  host: "tcp://192.168.9.1:8728"
+#  user: "admin"
+#  password: "123456"
+#  ethers:
+#    - name: "ether-cm"
+#      isInvert: false
+#    - name: "ether-ct"
+#      isInvert: false
