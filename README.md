@@ -57,10 +57,7 @@ api:
 
 **使用 Docker：**
 
-```bash 
-make all
-``` 
-docker-compose.yml
+新建 `docker-compose.yml` 文件
 ```
 version: "3.9"
 services:
@@ -73,6 +70,10 @@ services:
     ports:
       - "19999:19999"
 ```
+执行
+```bash 
+docker-compose up -d
+``` 
 
 ## 配置说明
 
