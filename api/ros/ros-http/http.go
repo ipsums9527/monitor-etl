@@ -92,9 +92,9 @@ func (c *Client) GetTrafficInfo() (*common.EtherInfo, error) {
 }
 
 func (c *Client) GetHealthInfo() (*common.HealthInfo, error) {
-	health := new(common.HealthInfo)
+	var healths []*common.HealthInfo
 	resp, err := c.R().
-		SetResult(health).
+		SetResult(&healths).
 		Get("/system/health")
 	if err != nil {
 		return nil, err
@@ -103,5 +103,11 @@ func (c *Client) GetHealthInfo() (*common.HealthInfo, error) {
 		return nil, errors.New(resp.String())
 	}
 
-	return health, nil
+	for _, e := range healths {
+		if e.Name == "cpu-temperature" {
+			return e, nil
+		}
+	}
+
+	return &common.HealthInfo{}, nil
 }

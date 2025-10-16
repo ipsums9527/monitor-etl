@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/go-routeros/routeros/v3"
+	"github.com/go-viper/mapstructure/v2"
 	"github.com/labstack/gommon/log"
 
 	"github.com/ipsums9527/monitor-etl/api/ros/common"
@@ -99,10 +100,17 @@ func (c *Client) GetHealthInfo() (*common.HealthInfo, error) {
 		return nil, err
 	}
 
-	return &common.HealthInfo{
-		Voltage:     re.Re[0].Map["voltage"],
-		Temperature: re.Re[0].Map["temperature"],
-	}, nil
+	health := new(common.HealthInfo)
+	for _, e := range re.Re {
+		if e.Map["name"] == "cpu-temperature" {
+			if err := mapstructure.Decode(e.Map, health); err != nil {
+				log.Error(err)
+			}
+			return health, nil
+		}
+	}
+
+	return health, nil
 }
 
 func (c *Client) reconnect() {
