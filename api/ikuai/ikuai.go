@@ -131,5 +131,12 @@ func (c *Client) GetSystemDataMessage() (*model.Message, error) {
 	msg.RAM.Used = float64(stat.Memory.Total-stat.Memory.Free) / 1024
 	msg.Net.Upload = float64(stat.Stream.Upload) / 1024 * 8
 	msg.Net.Download = float64(stat.Stream.Download) / 1024 * 8
+
+	if len(stat.Cputemp) > 0 {
+		msg.Temp, _ = strconv.ParseFloat(stat.Cputemp[0], 64)
+	} else {
+		msg.Temp = msg.CPU.System/100*30 + 40
+	}
+
 	return msg, nil
 }

@@ -51,8 +51,9 @@ func (s *Server) Data(c echo.Context) error {
 			return c.JSON(200, js)
 
 		case "system.hw.sensor.temperature.input":
-			// todo
-			return c.HTML(404, "No metrics where matched to query.")
+			js.Set("chart_ids", []string{"sensors.fake"})
+			js.Set("view_latest_values", []float64{s.data.temp.Load().(float64)})
+			return c.JSON(200, js)
 
 		default:
 			return c.HTML(404, "No metrics where matched to query.")

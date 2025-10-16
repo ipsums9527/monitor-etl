@@ -6,6 +6,7 @@ type Message struct {
 		Used float64 `json:"used,omitempty"` // unit Mb
 	} `json:"ram,omitempty"`
 	Uptime float64 `json:"uptime,omitempty"` // unit second
+	Temp   float64 `json:"temp,omitempty"`   // unit Celsius
 	CPU    struct {
 		User   float64 `json:"user,omitempty"`   // percentage
 		System float64 `json:"system,omitempty"` // percentage

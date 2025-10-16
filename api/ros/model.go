@@ -10,6 +10,7 @@ type rosClient interface {
 
 	// GetTrafficInfo get traffic info, return tx bit/s, rx bit/s, err
 	GetTrafficInfo() (*common.EtherInfo, error)
+	GetHealthInfo() (*common.HealthInfo, error)
 }
 
 type Client struct {

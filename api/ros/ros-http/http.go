@@ -90,3 +90,18 @@ func (c *Client) GetTrafficInfo() (*common.EtherInfo, error) {
 		TxBitsPerSecond: totalTx,
 	}, nil
 }
+
+func (c *Client) GetHealthInfo() (*common.HealthInfo, error) {
+	health := new(common.HealthInfo)
+	resp, err := c.R().
+		SetResult(health).
+		Get("/system/health")
+	if err != nil {
+		return nil, err
+	}
+	if resp.IsError() {
+		return nil, errors.New(resp.String())
+	}
+
+	return health, nil
+}

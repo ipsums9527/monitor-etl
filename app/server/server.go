@@ -5,7 +5,6 @@ import (
 	"time"
 
 	"github.com/labstack/echo/v4"
-	"github.com/labstack/echo/v4/middleware"
 	"github.com/labstack/gommon/log"
 
 	"github.com/ipsums9527/monitor-etl/model"
@@ -13,7 +12,7 @@ import (
 
 func New(opt *Options) *Server {
 	e := echo.New()
-	e.Use(middleware.Recover())
+	//e.Use(middleware.Recover())
 
 	s := &Server{
 		Listen:      opt.Listen,
@@ -67,4 +66,5 @@ func (s *Server) storeMsg(msg *model.Message) {
 	s.data.uptime.Store(msg.Uptime)
 	s.data.netDown.Store(msg.Net.Download)
 	s.data.netUp.Store(msg.Net.Upload)
+	s.data.temp.Store(msg.Temp)
 }

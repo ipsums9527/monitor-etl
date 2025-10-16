@@ -22,3 +22,8 @@ type Options struct {
 		IsInvert bool
 	}
 }
+
+type HealthInfo struct {
+	Voltage     string
+	Temperature string
+}

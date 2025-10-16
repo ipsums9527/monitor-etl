@@ -75,6 +75,18 @@ func (c *Client) GetSystemDataMessage() (*model.Message, error) {
 		msg.Uptime = formatUptime(sys.Uptime)
 	}
 
+	//get temperature
+	health, err := c.GetHealthInfo()
+	if err != nil {
+		errs = errors.Join(err)
+	} else {
+		if health.Temperature == "" {
+			msg.Temp = msg.CPU.System/100*30 + 40
+		} else {
+			msg.Temp, _ = strconv.ParseFloat(health.Temperature, 64)
+		}
+	}
+
 	if errs != nil {
 		return nil, errs
 	}

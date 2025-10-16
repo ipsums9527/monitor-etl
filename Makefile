@@ -11,7 +11,6 @@ build: clean
 	docker build -f Dockerfile -t $(IMAGE_TAG) .
 
 update:
-	ssh $(REMOTE_HOST) "docker-compose -f $(TARGET_DIR)/docker-compose.yml up -d"
-	ssh $(REMOTE_HOST) "docker image prune -f"
+	ssh $(REMOTE_HOST) "docker-compose -f $(TARGET_DIR)/docker-compose.yml up -d && docker image prune -f"
 
 all: build update

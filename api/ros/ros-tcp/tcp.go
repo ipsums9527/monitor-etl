@@ -90,6 +90,21 @@ func (c *Client) GetTrafficInfo() (*common.EtherInfo, error) {
 	}, nil
 }
 
+func (c *Client) GetHealthInfo() (*common.HealthInfo, error) {
+	re, err := c.cli.RunArgs([]string{
+		"/system/health/print",
+	})
+	if err != nil {
+		c.reconnect()
+		return nil, err
+	}
+
+	return &common.HealthInfo{
+		Voltage:     re.Re[0].Map["voltage"],
+		Temperature: re.Re[0].Map["temperature"],
+	}, nil
+}
+
 func (c *Client) reconnect() {
 	defer time.Sleep(time.Second * 5)
 

@@ -32,4 +32,5 @@ type sysData struct {
 	cpuSys  atomic.Value
 	netDown atomic.Value
 	netUp   atomic.Value
+	temp    atomic.Value
 }
