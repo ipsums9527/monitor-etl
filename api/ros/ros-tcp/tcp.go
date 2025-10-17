@@ -110,7 +110,7 @@ func (c *Client) GetHealthInfo() (*common.HealthInfo, error) {
 		}
 	}
 
-	return health, nil
+	return nil, common.ErrNotFoundTemperature
 }
 
 func (c *Client) reconnect() {

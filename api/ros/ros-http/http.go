@@ -109,5 +109,5 @@ func (c *Client) GetHealthInfo() (*common.HealthInfo, error) {
 		}
 	}
 
-	return &common.HealthInfo{}, nil
+	return nil, common.ErrNotFoundTemperature
 }

@@ -78,13 +78,13 @@ func (c *Client) GetSystemDataMessage() (*model.Message, error) {
 	//get temperature
 	health, err := c.GetHealthInfo()
 	if err != nil {
-		errs = errors.Join(err)
-	} else {
-		if health.Value == "" {
+		if errors.Is(err, common.ErrNotFoundTemperature) {
 			msg.Temp = msg.CPU.System/100*30 + 40
 		} else {
-			msg.Temp, _ = strconv.ParseFloat(health.Value, 64)
+			errs = errors.Join(err)
 		}
+	} else {
+		msg.Temp, _ = strconv.ParseFloat(health.Value, 64)
 	}
 
 	if errs != nil {

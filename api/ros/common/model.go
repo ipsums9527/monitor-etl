@@ -1,5 +1,7 @@
 package common
 
+import "errors"
+
 type SystemInfo struct {
 	CpuLoad     string `json:"cpu-load"`     // cpu percentage used
 	FreeMemory  string `json:"free-memory"`  // unit M
@@ -28,3 +30,5 @@ type HealthInfo struct {
 	Type  string `json:"type,omitempty"`
 	Value string `json:"value,omitempty"`
 }
+
+var ErrNotFoundTemperature = errors.New("not found temperature")
