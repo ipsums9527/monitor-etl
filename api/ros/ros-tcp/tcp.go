@@ -2,6 +2,7 @@ package ros_tcp
 
 import (
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/go-routeros/routeros/v3"
@@ -101,6 +102,7 @@ func (c *Client) GetHealthInfo() (*common.HealthInfo, error) {
 	}
 
 	health := new(common.HealthInfo)
+	var isFound bool
 	for _, e := range re.Re {
 		if e.Map["name"] == "cpu-temperature" {
 			if err := mapstructure.Decode(e.Map, health); err != nil {
@@ -108,6 +110,15 @@ func (c *Client) GetHealthInfo() (*common.HealthInfo, error) {
 			}
 			return health, nil
 		}
+		if strings.Contains(e.Map["name"], "temperature") {
+			isFound = true
+			if err := mapstructure.Decode(e.Map, health); err != nil {
+				log.Error(err)
+			}
+		}
+	}
+	if isFound {
+		return health, nil
 	}
 
 	return nil, common.ErrNotFoundTemperature

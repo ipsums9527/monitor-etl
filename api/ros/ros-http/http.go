@@ -3,6 +3,7 @@ package ros_http
 import (
 	"errors"
 	"strconv"
+	"strings"
 
 	"resty.dev/v3"
 
@@ -17,7 +18,7 @@ func New(opt *common.Options) *Client {
 
 	return &Client{
 		Client: resty.New().
-			SetBaseURL("http://"+opt.Host+"/rest").
+			SetBaseURL(opt.Host+"/rest").
 			SetBasicAuth(opt.User, opt.Password).
 			SetDisableWarn(true).
 			SetHeader("Content-Type", "application/json").
@@ -103,10 +104,18 @@ func (c *Client) GetHealthInfo() (*common.HealthInfo, error) {
 		return nil, errors.New(resp.String())
 	}
 
+	var health *common.HealthInfo
 	for _, e := range healths {
 		if e.Name == "cpu-temperature" {
 			return e, nil
 		}
+
+		if strings.Contains(e.Name, "temperature") {
+			health = e
+		}
+	}
+	if health != nil {
+		return health, nil
 	}
 
 	return nil, common.ErrNotFoundTemperature

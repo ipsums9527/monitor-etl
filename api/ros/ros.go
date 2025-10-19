@@ -19,14 +19,15 @@ func New(opt *common.Options) (*Client, error) {
 	if err != nil {
 		return nil, err
 	}
-	opt.Host = u.Host
 
 	var client rosClient
 	switch u.Scheme {
 	case "http":
+		opt.Host = u.String()
 		client = ros_http.New(opt)
 
 	case "tcp":
+		opt.Host = u.Host
 		tcpClient, err := ros_tcp.New(opt)
 		if err != nil {
 			return nil, err
