@@ -110,7 +110,7 @@ func (c *Client) GetHealthInfo() (*common.HealthInfo, error) {
 			}
 			return health, nil
 		}
-		if strings.Contains(e.Map["name"], "temperature") {
+		if !isFound && strings.Contains(e.Map["name"], "temperature") {
 			isFound = true
 			if err := mapstructure.Decode(e.Map, health); err != nil {
 				log.Error(err)

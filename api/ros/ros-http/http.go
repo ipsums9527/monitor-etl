@@ -104,18 +104,18 @@ func (c *Client) GetHealthInfo() (*common.HealthInfo, error) {
 		return nil, errors.New(resp.String())
 	}
 
-	var health *common.HealthInfo
-	for _, e := range healths {
-		if e.Name == "cpu-temperature" {
-			return e, nil
+	var fallbackHealth *common.HealthInfo
+	for _, health := range healths {
+		if health.Name == "cpu-temperature" {
+			return health, nil
 		}
 
-		if strings.Contains(e.Name, "temperature") {
-			health = e
+		if fallbackHealth == nil && strings.Contains(health.Name, "temperature") {
+			fallbackHealth = health
 		}
 	}
-	if health != nil {
-		return health, nil
+	if fallbackHealth != nil {
+		return fallbackHealth, nil
 	}
 
 	return nil, common.ErrNotFoundTemperature
