@@ -37,7 +37,7 @@ func (c *Client) Close() error {
 }
 
 func (c *Client) GetSystemInfo() (*common.SystemInfo, error) {
-	re, err := c.cli.RunArgs([]string{"/system/resource/print", ".proplist=cpu-load,free-memory,total-memory,uptime"})
+	re, err := c.cli.RunArgs([]string{"/system/resource/print", "=.proplist=cpu-load,free-memory,total-memory,uptime"})
 	if err != nil {
 		c.reconnect()
 		return nil, err
