@@ -37,7 +37,10 @@ func (c *Client) Close() error {
 }
 
 func (c *Client) GetSystemInfo() (*common.SystemInfo, error) {
-	re, err := c.cli.RunArgs([]string{"/system/resource/print", "=.proplist=cpu-load,free-memory,total-memory,uptime"})
+	re, err := c.cli.RunArgs([]string{
+		"/system/resource/print",
+		"=.proplist=cpu-load,free-memory,total-memory,uptime",
+	})
 	if err != nil {
 		c.reconnect()
 		return nil, err
@@ -58,8 +61,8 @@ func (c *Client) GetTrafficInfo() (*common.EtherInfo, error) {
 	}
 	re, err := c.cli.RunArgs([]string{
 		"/interface/monitor-traffic",
-		"=.proplist=name,rx-bits-per-second,tx-bits-per-second",
 		"=interface=" + allInterfacesName,
+		"=.proplist=name,rx-bits-per-second,tx-bits-per-second",
 		"=once=",
 	})
 	if err != nil {
